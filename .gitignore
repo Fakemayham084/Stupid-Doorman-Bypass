@@ -8,6 +8,7 @@ __pycache__/
 
 # ENV (i add stuff to the env via file uploads)
 .env
+.config.json 
 
 # Distribution / packaging
 .Python
