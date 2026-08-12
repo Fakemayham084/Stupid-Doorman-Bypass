@@ -1,0 +1,117 @@
+{
+  "base_url": "https://gopher-backend-prod-103702261730.us-central1.run.app",
+  "source": "strings extracted from libapp.so (Doorman v0.12.5, com.derivative.gopher)",
+  "note": "Descriptions are inferred from naming conventions and app context, NOT confirmed via live traffic capture.",
+  "endpoints": [
+    {
+      "path": "/api/v1/admin-accounts/",
+      "likely_scope": "admin",
+      "description": "Manage school admin/IT staff accounts"
+    },
+    {
+      "path": "/api/v1/attendance/school/",
+      "likely_scope": "admin",
+      "description": "Attendance records for a school"
+    },
+    {
+      "path": "/api/v1/classrooms/school/",
+      "likely_scope": "admin",
+      "description": "List/manage a school's classrooms"
+    },
+    {
+      "path": "/api/v1/classrooms/validate-code",
+      "likely_scope": "student",
+      "description": "Check a manually-typed classroom code (NFC fallback)"
+    },
+    {
+      "path": "/api/v1/daily-schedule-excusals/school/",
+      "likely_scope": "student",
+      "description": "Excused absences / early-release passes"
+    },
+    {
+      "path": "/api/v1/groups/student/",
+      "likely_scope": "student",
+      "description": "Student's own group memberships (sections, cohorts, custom groups)"
+    },
+    {
+      "path": "/api/v1/mobile/update-policy",
+      "likely_scope": "student",
+      "description": "Poll for policy/config changes pushed to the app remotely"
+    },
+    {
+      "path": "/api/v1/on-demand-check",
+      "likely_scope": "student",
+      "description": "Server asks a device to prove it's connected right now"
+    },
+    {
+      "path": "/api/v1/on-demand-check/response",
+      "likely_scope": "student",
+      "description": "Device's answer to the on-demand connection challenge"
+    },
+    {
+      "path": "/api/v1/schools/",
+      "likely_scope": "admin",
+      "description": "School org records (name, domain, settings)"
+    },
+    {
+      "path": "/api/v1/section-students/student/",
+      "likely_scope": "student",
+      "description": "Which sections a given student is in"
+    },
+    {
+      "path": "/api/v1/sections/school/",
+      "likely_scope": "admin",
+      "description": "Class sections for a school (e.g. 'Period 3 Algebra')"
+    },
+    {
+      "path": "/api/v1/service-login/impersonate",
+      "likely_scope": "admin",
+      "description": "Admin/support logs in as a student for troubleshooting"
+    },
+    {
+      "path": "/api/v1/students/",
+      "likely_scope": "admin",
+      "description": "Core student CRUD (bulk, cross-school)"
+    },
+    {
+      "path": "/api/v1/students/email/",
+      "likely_scope": "student",
+      "description": "Look up a student by email (login/lookup flow)"
+    },
+    {
+      "path": "/api/v1/students/school/",
+      "likely_scope": "admin",
+      "description": "List all students belonging to a school"
+    },
+    {
+      "path": "/api/v1/tag-classrooms",
+      "likely_scope": "student",
+      "description": "NFC tag-to-classroom mapping registry"
+    },
+    {
+      "path": "/api/v1/tag-classrooms/",
+      "likely_scope": "student",
+      "description": "Same as above, likely used with an ID appended"
+    },
+    {
+      "path": "/api/v1/tag-classrooms/tag/",
+      "likely_scope": "student",
+      "description": "Resolve a tapped NFC tag to a classroom"
+    },
+    {
+      "path": "/api/v1/vpn-logging",
+      "likely_scope": "student",
+      "description": "Client reports VPN connection events/status"
+    },
+    {
+      "path": "/api/v1/vpn-logging/",
+      "likely_scope": "student",
+      "description": "Same as above, likely used with an ID appended"
+    },
+    {
+      "path": "/api/v1/wireguard/config/",
+      "likely_scope": "student",
+      "description": "Fetch the device's own WireGuard tunnel config"
+    }
+  ]
+}
