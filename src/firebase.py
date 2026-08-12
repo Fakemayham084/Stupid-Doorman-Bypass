@@ -1,26 +1,22 @@
-import requests
-from dotenv import load_dotenv
+import json
 import os
 import sys
 from uuid import uuid4
+import requests
 from push_receiver import PushReceiver
 from push_receiver.android_fcm_register import AndroidFCM
-import json
 
-load_dotenv()
-
-API_TOKEN = os.getenv("API_KEY")
-PROJECT_ID = os.getenv("PROJECT_ID")
-GCM_SENDER_ID = os.getenv("GCM_SENDER_ID")
-GMS_APP_ID = os.getenv("GMS_APP_ID")
-ANDROID_PACKAGE_NAME = os.getenv("ANDROID_PACKAGE_NAME")
-ANDROID_PACKAGE_CERT = os.getenv("ANDROID_PACKAGE_CERT")
+API_KEY = "AIzaSyCra8J8aVsw5s7btGTVaDW-qpyT7SYuovE"
+PROJECT_ID = "possible-flag-455700-a2"
+GCM_SENDER_ID = "103702261730"
+GMS_APP_ID = "1:103702261730:android:291cccc810940d630713bb"
+ANDROID_PACKAGE_NAME = "com.derivative.gopher"
+ANDROID_PACKAGE_CERT = "57FFA1FA2E250F5918598116516319A003416AD1"
 
 
 def get_config_file():
-    return (
-        f"{str(os.path.dirname(os.path.realpath(__file__)))}{os.sep}gopher.config.json"
-    )
+    return f"{str(os.path.dirname(os.path.realpath(__file__)))}{os.sep}gopher.config.json"
+
 
 class GopherCli:
     def __init__(self) -> None:
@@ -32,24 +28,16 @@ class GopherCli:
             json.dump(data, outputFile, indent=4, sort_keys=True)
 
     def fcm_register(self):
-        print("Registering virtual device with FCM...")
-
         self.fcm_credentials = AndroidFCM.register(
-            API_TOKEN, 
-            PROJECT_ID, 
-            GCM_SENDER_ID, 
-            GMS_APP_ID, 
+            API_KEY,
+            PROJECT_ID,
+            GCM_SENDER_ID,
+            GMS_APP_ID,
             ANDROID_PACKAGE_NAME,
-            ANDROID_PACKAGE_CERT
+            ANDROID_PACKAGE_CERT,
         )
 
-        print("Registered with FCM successfully.")
-
         fcm_token = self.fcm_credentials.get("fcm", {}).get("token")
-        print(f"\n--- YOUR DEVICE TOKENS ---")
-        print(f"FIREBASE_DEVICE_TOKEN = {fcm_token}")
-        print(f"--------------------------\n")
-
         config_file = get_config_file()
         self.update_config(
             config_file,
@@ -57,29 +45,25 @@ class GopherCli:
                 "fcm_credentials": self.fcm_credentials,
             },
         )
-        print("Credentials saved to " + config_file)
+
+        return fcm_token
 
     def on_notification(self, obj, notification, data_message):
-        print("\n[!] Notification Received!")
-        print("Raw Notification data:", notification)
-
         try:
             body_data = json.loads(notification.get("body", "{}"))
-            print("Decoded Body Payload:", json.dumps(body_data, indent=2))
         except Exception:
-            print("Body Text:", notification.get("body"))
+            pass
 
-    def fcm_listen(self):
+    def fcm_listen(self, callback_func=None):
         try:
             with open(get_config_file(), "r") as file:
                 config = json.load(file)
                 self.fcm_credentials = config["fcm_credentials"]
         except FileNotFoundError:
-            print("Config File doesn't exist! Run 'register' first.")
             quit()
 
-        print("Listening for push notifications stream...")
-        PushReceiver(self.fcm_credentials).listen(callback=self.on_notification)
+        on_notify = callback_func if callback_func else self.on_notification
+        PushReceiver(self.fcm_credentials).listen(callback=on_notify)
 
 
 if __name__ == "__main__":
