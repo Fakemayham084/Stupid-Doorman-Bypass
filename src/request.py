@@ -13,7 +13,7 @@ headers = {
     "Content-Type": "application/json",
 }
 
-response = requests.get(f"{BASE_URL}/api/v1/students/email/hartj29@mcmsnj.net", headers=headers)
 
-print(response.status_code)
-print(response.text)
+def get_student_by_email(email):
+    response = requests.get(f"{BASE_URL}/api/v1/students/email/{email}", headers=headers)
+    return response
